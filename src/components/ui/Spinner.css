@@ -1,0 +1,16 @@
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner__ring {
+  border-radius: 50%;
+  border: 2.5px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  animation: spin 0.7s linear infinite;
+}
+
+.spinner--sm .spinner__ring { width: 18px; height: 18px; }
+.spinner--md .spinner__ring { width: 32px; height: 32px; }
+.spinner--lg .spinner__ring { width: 48px; height: 48px; }
