@@ -22,3 +22,56 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# ── Python / Backend ──────────────────────────────
+# Entorno virtual
+venv/
+backend/venv/
+.venv/
+env/
+ENV/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Base de datos SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# ChromaDB (base vectorial generada)
+backend/chroma_db_unipamplona/
+chroma_db_unipamplona/
+
+# HuggingFace cache
+.cache/
+
+# Variables de entorno (sensibles)
+.env
+.env.local
+.env.production
+
+# Archivos de distribución Python
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Pytest / Coverage
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# mypy
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Alembic versions si hay migraciones generadas localmente
+# backend/alembic/versions/
