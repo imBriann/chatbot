@@ -70,21 +70,37 @@ export const useChatStore = create<ChatState>((set, get) => ({
       set((s) => ({
         messages: [...s.messages, botMessage],
         isLoading: false,
+        error: null,
       }));
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Error al conectar con el servidor';
+      
+      // Determinar el mensaje de error apropiado
+      let userFriendlyError = 'Lo siento, hubo un error al procesar tu consulta. Por favor intenta de nuevo.';
+      if (errorMessage.includes('timeout') || errorMessage.includes('Timeout')) {
+        userFriendlyError = 'La solicitud tardó demasiado en procesarse. Por favor intenta de nuevo.';
+      } else if (errorMessage.includes('Network')) {
+        userFriendlyError = 'Hay un problema de conexión. Por favor verifica tu conexión a internet.';
+      }
+
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Error al conectar con el servidor',
+        error: userFriendlyError,
       });
 
-      const errorMessage: ChatMessage = {
+      const errorChatMessage: ChatMessage = {
         id: uuidv4(),
         role: 'bot',
-        content: 'Lo siento, hubo un error al procesar tu consulta. Por favor intenta de nuevo.',
+        content: userFriendlyError,
         createdAt: new Date().toISOString(),
       };
 
-      set((s) => ({ messages: [...s.messages, errorMessage] }));
+      set((s) => ({ messages: [...s.messages, errorChatMessage] }));
+
+      // Limpiar error después de 10 segundos
+      setTimeout(() => {
+        set({ error: null });
+      }, 10000);
     }
   },
 

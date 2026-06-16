@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+langchain
+langchain-community
+langchain-huggingface
+langchain-text-splitters
+transformers
+chromadb
+sentence-transformers
+sqlalchemy
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pypdf

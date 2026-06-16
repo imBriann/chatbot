@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { api } from '../services/api';
 import type { AdminCategory, AdminFAQ, AdminLog, AdminMetrics } from '../types';
@@ -50,7 +50,7 @@ export function AdminPanel() {
     [faqForm.relatedTopics]
   );
 
-  const loadDashboard = async (tokenValue: string) => {
+  const loadDashboard = useCallback(async (tokenValue: string) => {
     setLoadingDashboard(true);
     try {
       const [cats, metricsRes, logsRes] = await Promise.all([
@@ -62,13 +62,13 @@ export function AdminPanel() {
       setMetrics(metricsRes.metrics);
       setLogs(logsRes.logs);
 
-      if (cats.categories.length > 0 && !selectedCategoryId) {
-        setSelectedCategoryId(cats.categories[0].id);
+      if (cats.categories.length > 0) {
+        setSelectedCategoryId((prev) => prev || cats.categories[0].id);
       }
     } finally {
       setLoadingDashboard(false);
     }
-  };
+  }, []);
 
   const loadFaqs = async (tokenValue: string, categoryId: string) => {
     if (!categoryId) return;
@@ -83,13 +83,19 @@ export function AdminPanel() {
 
   useEffect(() => {
     if (token) {
-      loadDashboard(token);
+      const id = setTimeout(() => {
+        void loadDashboard(token);
+      }, 0);
+      return () => clearTimeout(id);
     }
-  }, [token]);
+  }, [token, loadDashboard]);
 
   useEffect(() => {
     if (token && selectedCategoryId) {
-      loadFaqs(token, selectedCategoryId);
+      const id = setTimeout(() => {
+        void loadFaqs(token, selectedCategoryId);
+      }, 0);
+      return () => clearTimeout(id);
     }
   }, [token, selectedCategoryId]);
 

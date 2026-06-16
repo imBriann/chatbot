@@ -32,14 +32,18 @@ export function FAQSection() {
 
   useEffect(() => {
     if (!activeCategory) return;
-    setIsLoading(true);
-    api.getFAQs(activeCategory)
-      .then((res) => {
-        setFaqs(res.faqs || []);
-        setOpenIndex(0);
-      })
-      .catch(() => setFaqs([]))
-      .finally(() => setIsLoading(false));
+    const id = setTimeout(() => {
+      setIsLoading(true);
+      api.getFAQs(activeCategory)
+        .then((res) => {
+          setFaqs(res.faqs || []);
+          setOpenIndex(0);
+        })
+        .catch(() => setFaqs([]))
+        .finally(() => setIsLoading(false));
+    }, 0);
+
+    return () => clearTimeout(id);
   }, [activeCategory]);
 
   const filteredFaqs = useMemo(() => {
