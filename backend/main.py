@@ -72,8 +72,8 @@ def chat_endpoint(request: ChatRequest, db: Session = Depends(get_db)):
             resultado = consultar_agente(request.message)
             respuesta_texto = resultado.get("result", "Lo siento, tuve un problema al procesar tu solicitud.")
             docs = resultado.get("source_documents", [])
+            confidence = resultado.get("confidence", 0.0)
             fuentes_relacionadas = ["Guía de Orientación Académica"] if docs else []
-            confidence = 0.9 if docs else 0.5
         except Exception as e:
             print(f"Error en consultar_agente: {str(e)}")
             respuesta_texto = "Lo siento, tuve un problema al procesar tu solicitud. Por favor intenta de nuevo más tarde."
@@ -87,7 +87,7 @@ def chat_endpoint(request: ChatRequest, db: Session = Depends(get_db)):
             sender="bot",
             text=respuesta_texto,
             confidence=confidence,
-            related_docs=[doc.page_content[:100] for doc in docs] if docs else []
+            related_docs=[doc.metadata.get("question", "")[:120] for doc in docs] if docs else []
         )
         db.add(bot_msg)
         conv.last_updated = datetime.datetime.utcnow()

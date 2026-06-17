@@ -92,6 +92,31 @@
   --navbar-height: 72px;
 }
 
+/* Premium Dark Theme variables */
+[data-theme="dark"] {
+  --color-bg: #0B0F19;
+  --color-bg-alt: #111827;
+  --color-surface: #1F2937;
+  --color-surface-hover: #374151;
+  --color-primary: #3B82F6;
+  --color-primary-light: #60A5FA;
+  --color-primary-dark: #1E3A8A;
+  --color-primary-50: #1E293B;
+  --color-primary-100: #1E3A8A;
+  --color-primary-200: #3B82F6;
+  --color-text: #F9FAFB;
+  --color-text-secondary: #E5E7EB;
+  --color-text-muted: #9CA3AF;
+  --color-text-light: #6B7280;
+  --color-border: #374151;
+  --color-border-light: #1F2937;
+  
+  --color-bot-bubble: #374151;
+  --glass-bg: rgba(17, 24, 39, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+}
+
 /* ==========================================================================
    Reset & Base
    ========================================================================== */
@@ -100,6 +125,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 html {
@@ -116,7 +142,9 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 
 #root {
   min-height: 100vh;
